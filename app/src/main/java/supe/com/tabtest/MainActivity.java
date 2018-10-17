@@ -45,6 +45,24 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setCurrentItem(1);
         tabLayout.setupWithViewPager(viewPager);//关联viewPager宇tabLayout
         tabLayout.setTabsFromPagerAdapter(tabAdapter); //给tabLayout设置适配器
+        //tabLayout监听事件
+        tabLayout.setOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                //选中了的逻辑
+                toolbar.setTitle(tab.getText());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+               //未选中的逻辑
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+               //再次选中的逻辑
+            }
+        });
 
     }
 
