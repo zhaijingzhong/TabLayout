@@ -1,16 +1,21 @@
 package supe.com.tabtest;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
+
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+import cn.jpush.android.api.JPushInterface;
+
+public class MainActivity extends BaseApplication {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -23,11 +28,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+        JPushInterface.setAlias(this,"123",null);
         initToolbar();
         initView();
     }
 
     private void initView() {
+
+        SPUtils spUtils  = SPUtils.getInstance("file");
+        spUtils.put("name","小明");
+        ToastUtils.showShort(spUtils.getString("name"));
         ArrayList<String> tabList= new ArrayList<>();
         tabList.add("TabOne");
         tabList.add("TabTow");
@@ -35,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(firstFragment);
         fragments.add(secondFragment);
         tabAdapter = new TabAdapter(getSupportFragmentManager(),tabList,fragments);
-
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
         //给tabLayout添加图标 没有实现
